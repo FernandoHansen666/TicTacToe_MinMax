@@ -1,8 +1,8 @@
 package AStar_Ascent;
 
 import java.util.ArrayList;
+//import java.util.HashMap;
 import java.util.Scanner;
-
 
 public class Grafo {
 
@@ -11,30 +11,14 @@ public class Grafo {
     public static String escolha;
     public static int dist;
     public static String Boom2;
-    public static ArrayList<String> pathlist = new ArrayList();
+    public static ArrayList<String> pathlist = new ArrayList<String>();
     public static Scanner bombvalue = new Scanner(System.in);
-
-
 
     ArrayList<Aresta> arestas = new ArrayList<Aresta>();
     ArrayList<Vertice> vertices = new ArrayList<Vertice>();
 
     public static void main(String[] args) {
         new Grafo();
-
-        //Scanner alg = new Scanner(System.in);
-       // Scanner bombvalue = new Scanner(System.in);
-
-        if (args.length <= 0){
-            System.out.println("Sem parametros!");
-        }
-
-        for(String n:args){
-            int val=Integer.valueOf(n);
-            val = 1+val;
-
-        }
-
 
     }
 
@@ -88,18 +72,18 @@ public class Grafo {
             System.out.println("Bomb B Selecionado\n__________________\n");
         }
 
-        escolha = "bombA"; // Seleciona o ponto de origem
-        if (escolha.equals(Boom2)){
+        escolha = "basetr"; // Seleciona o ponto de origem
+        if (escolha.equals(Boom2)) {
             System.out.println("Você Já esta no objetivo ;)\n");
         }
         pathlist.add(escolha);
         while (!escolha.equals(Boom2)) {
 
-            vertices.forEach(a -> {
+            for (Vertice a : vertices) {
 
                 if (a.getNome().equals(escolha)) {
 
-                    a.getAresta().forEach(b -> {
+                    for (Aresta b : a.getAresta()) {
 
                         if (Boom.equals("-A")) {
                             dist = b.getDestino().getAheur();
@@ -112,14 +96,16 @@ public class Grafo {
 
                         String nomes = a.getNome();
                         int f = dist + b.getDist(); // função A*
-                        if (f < min) { // compara o valor atual com o armazenado anteriormente, se for menos substitui o min
+                        if (f < min) { // compara o valor atual com o armazenado anteriormente, se for menos substitui
+                            // o min
                             min = f;
 
                         }
                         if (true) {
                             System.out.println("Nome: " + nomes);
                             System.out.println(
-                                    b.getOrigem().getNome() + " >>> " + b.getDestino().getNome() + " = " + b.getDist());
+                                    b.getOrigem().getNome() + " >>> " + b.getDestino().getNome() + " = " +
+                                            b.getDist());
                             if (Boom.equals("-A")) {
                                 System.out.println("Heuristica \"A\" de " + b.getDestino().getNome() + ": "
                                         + b.getDestino().getAheur());
@@ -139,21 +125,24 @@ public class Grafo {
                             escolha = menorcam;
                         }
 
-                    });
+                    }
+
                     System.out.println("******************************************************\n");
-                    System.out.println("Caminho escolhido: " + escolha + " | Custando: " + min + "\n");
+                    System.out.println("Caminho escolhido: " + escolha + " | Custando: " + min +
+                            "\n");
                     pathlist.add(escolha); // armazena os caminhos escolhidos
                     min = 666; // reseta o valor min para a prox execucao
                     if (escolha.equals(Boom2)) {
                         System.out.println("CHEGOOOOOOOOOOOOOOOOOOOUUU\n");
-                        System.out.println("Bomb escolhido: " + Boom2 + "\nCaminho feito: " + pathlist);
+                        System.out.println("Bomb escolhido: " + Boom2 + "\nCaminho feito: " +
+                                pathlist);
                         System.exit(1);
 
                     }
 
                 }
 
-            });
+            }
 
         }
         // _________________________________________________________________________________________________
