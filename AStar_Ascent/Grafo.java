@@ -1,7 +1,6 @@
 package AStar_Ascent;
 
 import java.util.ArrayList;
-//import java.util.HashMap;
 import java.util.Scanner;
 
 public class Grafo {
@@ -13,6 +12,7 @@ public class Grafo {
     public static String Boom2;
     public static ArrayList<String> pathlist = new ArrayList<String>();
     public static Scanner bombvalue = new Scanner(System.in);
+    public static Scanner pontomap = new Scanner(System.in);
 
     ArrayList<Aresta> arestas = new ArrayList<Aresta>();
     ArrayList<Vertice> vertices = new ArrayList<Vertice>();
@@ -61,8 +61,13 @@ public class Grafo {
 
         // A* para bomb ----- A* -> F(n) = G(n) + H(n)
         // _____________________________________________________________________________
+        System.out.println("escolha o bomb (-A, -B): ");
 
         String Boom = new String(bombvalue.nextLine()); // seleciona o Bomb -A ou -B
+
+        System.out.println("Escolha o ponto inicial: ");
+
+        String inic = new String(pontomap.nextLine());
 
         if (Boom.equals("-A")) {
             Boom2 = new String("bombA");
