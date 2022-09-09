@@ -1,22 +1,37 @@
 package Djikstra_Ascent;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Djikstra {
 
     public static String escolha;
     public static int dist;
-    public static ArrayList<String> pathlist = new ArrayList<String>();
+    public static int soma = 0;
+    public static int count2 = 0;
+    public static int visitados;
+    public static ArrayList<Vertice> pathlist = new ArrayList<Vertice>();
+    public static ArrayList<Vertice> listavisitados = new ArrayList<Vertice>();
+    public static ArrayList<Vertice> backtrack = new ArrayList<Vertice>();
 
     ArrayList<Aresta> arestas = new ArrayList<Aresta>();
     ArrayList<Vertice> vertices = new ArrayList<Vertice>();
 
     public static void main(String[] args) {
-        new Djikstra();
+
+        // Entrada de dados
+
+        System.out.println("escolha o Objetivo (-A, -B):");
+        Scanner obj = new Scanner(System.in);
+        String o = obj.nextLine();
+        System.out.println("Qual o ponto inicial: ");
+        Scanner esc = new Scanner(System.in);
+        String e = esc.nextLine();
+        new Djikstra(o, e);
 
     }
 
-    public Djikstra() {
+    public Djikstra(String obj, String esc) {
 
         this.addVertice("bombA");
         this.addVertice("ceu");
@@ -56,35 +71,116 @@ public class Djikstra {
 
         // _____________________________________________________________________________
 
-        escolha = "basetr"; // Seleciona o ponto de origem
+        Vertice escolha = this.getVertice(esc);
+        Vertice objetivo = null;
 
-        String objetivo = new String("bombA"); // Ponto de objetivo BOMB A
+        if (obj.equals("-A")) { // decisão objetivo
+            objetivo = this.getVertice("bombA");
+        }
+        if (obj.equals("-B")) {
+            objetivo = this.getVertice("bombB");
+        }
 
-        for (Vertice a : vertices) {
-            if (a.getNome().equals(escolha)) {
+        while (true) { // rodar pakas
+            for (Vertice a : vertices) {
+                int count = 0;
+                while (count < 4) { // sei que tem no max 4 pontos em cada aresta
 
-                for (Aresta b : a.getAresta()) {
-                    String nomes = a.getNome();
+                    if (a.getNome().equals(escolha.getNome())) { // se o ponto for o escolhido
 
-                    // String [] listanome = {b.getOrigem().getNome(), b.getDestino().getNome()};
+                        for (Aresta b : a.getAresta()) { // lê atributos do ponto
+                            String nomes = a.getNome();
 
-                    // Aresta listanome = {b.getOrigem().getNome(), b.getDestino().getNome()};
+                            pathlist.add(b.getDestino()); // lista dos pontos que foram abertos
 
-                    // pathlist.add();
-                    //System.out.println(pathlist + "\n");
-                    //System.out.println(a.getAresta());
+                            if (true) {
+                                System.out.println("Nome: " + nomes);
+                                System.out.println(
+                                        b.getOrigem().getNome() + " >>> " + b.getDestino().getNome() + " = "
+                                                + b.getDist());
 
-                    if (true) {
-                        System.out.println("Nome: " + nomes);
-                        System.out.println(b.getOrigem().getNome() + " >>> " + b.getDestino().getNome() + " = " + b.getDist());
+                                System.out.println("===================================\n");
+                            }
 
-                        System.out.println("===================================\n");
+                        }
 
+                        if (!listavisitados.contains(a)) {
+                            System.out.print("Fechado: ");
+                            listavisitados.add(a); // lista dos pontos que foram fechados/finalizados
+                            for (Vertice l : listavisitados) {
+                                System.out.print(l.getNome() + ", ");
+                            }
+                            System.out.println();
+
+                        }
+
+                        System.out.print("Abriu: ");
+                        for (Vertice l : pathlist) {
+                            System.out.print(l.getNome() + ", "); // printa os abertos
+
+                        }
+
+                        System.out.println();
+                        System.out.println("++++++++++++++++");
+                        escolha = pathlist.get(count2);                     // seta o primeiro da lista de fechados
+                        while (listavisitados.contains(escolha)) {          //enquanto conter (primeiro dos fechados)
+                            count2++;                                       // altera o contador pra pegar o segundo dos fechados
+                            escolha = pathlist.get(count2);                 //seta o segundo dos fechados
+                        }
+            
+                        System.out.println("escolhido: " + escolha.getNome() + "\n"); // printa o ultimo escolhido
+
+                        if (escolha.getNome().equals(objetivo.getNome())) { //compara se a escolha e igual o objetivo
+
+                            System.out.println("\nCHEGOOOOOOUUUU\n");   // printa que chegou no objetivo
+
+                            System.out.println(escolha.getNome()); //printa o nome do objetivo
+
+                            int var = 0;
+                            int var2 = listavisitados.size() - 1;
+
+                            while (!escolha.getNome().equals(listavisitados.get(0).getNome())) { // enquanto escolha (primeira execução bomb, depois vai trocando fazendo backtrack)
+                                                                                                        //  for diferente do primeiro item (Ponto de partida escolhido)
+                                int soma2 = 0;
+
+                                if (var < listavisitados.size()) {
+                                    var++;
+
+                                    for (Aresta art : listavisitados.get(var2).getAresta()) {       // compara se a aresta anterior faz ligação com a atual (de traz pra frente)
+                                        if (art.destino.getNome().equals(objetivo.getNome())) {
+
+                                            soma += art.getDist();
+                                            System.out.println(art.getOrigem().getNome() + " " + art.getDist()); // nome e custo individual dos caminhos
+                                            objetivo = art.getOrigem();
+                                        }
+                                        soma2 = soma2 + soma; // soma dos custos dos caminhos
+
+                                    }
+
+                                    escolha = listavisitados.get(var2); // substitui a escolha pra fazer o backtrack
+                                    var2--;
+
+                                }
+                            }
+
+                            System.out.println("Soma caminho:" + soma); // printa a soma
+
+                            System.exit(1);       // encerrar o programa pq eu fiz um while true kk
+                        }
+
+                    }
+                    count++;
+                    if (listavisitados.contains(escolha)) { //pular nós que ja foram fechados olhando a lista pra não abrir caminhos que ja foram vistos
+                        count2++; // pula um item na arraylist
                     }
 
                 }
-            }
+                
+                if (count2 < listavisitados.size()) { //parar de contar apos atingir numero da lista
+                    count2++;
+                }
 
+            }
         }
 
         // _________________________________________________________________________________________________
@@ -114,6 +210,18 @@ public class Djikstra {
         this.arestas.add(ad);
         vo.addArestra(ao);
         vd.addArestra(ad);
+    }
+
+    public Vertice getVertice(String nome) {
+        Vertice vertice = null;
+
+        for (Vertice v : vertices) {
+            if (v.getNome().equals(nome)) {
+                vertice = v;
+            }
+
+        }
+        return vertice;
     }
 
 }
