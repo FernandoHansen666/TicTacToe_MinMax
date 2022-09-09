@@ -23,6 +23,7 @@ public class Grafo {
     }
 
     public Grafo() {
+
         this.addVertice("bombA", 0, 126);
         this.addVertice("ceu", 15, 100);
         this.addVertice("corredor", 23, 109);
@@ -77,18 +78,18 @@ public class Grafo {
             System.out.println("Bomb B Selecionado\n__________________\n");
         }
 
-        escolha = "basetr"; // Seleciona o ponto de origem
+        escolha = inic; // Seleciona o ponto de origem
         if (escolha.equals(Boom2)) {
             System.out.println("Você Já esta no objetivo ;)\n");
         }
-        pathlist.add(escolha);
+        pathlist.add(escolha); // inserir o primeiro item na lista do caminho
         while (!escolha.equals(Boom2)) {
 
-            for (Vertice a : vertices) {
+            for (Vertice a : vertices) { //roda o tamanho do vertice
 
                 if (a.getNome().equals(escolha)) {
 
-                    for (Aresta b : a.getAresta()) {
+                    for (Aresta b : a.getAresta()) { // open aresta
 
                         if (Boom.equals("-A")) {
                             dist = b.getDestino().getAheur();
