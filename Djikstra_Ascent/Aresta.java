@@ -1,8 +1,7 @@
 package Djikstra_Ascent;
 
-
 public class Aresta {
-    
+
     Vertice origem;
     Vertice destino;
     int dist;
@@ -31,7 +30,7 @@ public class Aresta {
         this.dist = dist;
     }
 
-    public Aresta(int dist, Vertice origem, Vertice destino){
+    public Aresta(int dist, Vertice origem, Vertice destino) {
         this.dist = dist;
         this.origem = origem;
         this.destino = destino;
@@ -39,6 +38,3 @@ public class Aresta {
     }
 
 }
-
-
-      

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Vertice {
 
     String nome;
-    Boolean visitado = false;
+    int somatoria;
 
-    public Boolean getVisitado() {
-        return visitado;
+    public int getSomatoria() {
+        return somatoria;
     }
 
-    public void setVisitado(Boolean visitado) {
-        this.visitado = visitado;
+    public void setSomatoria(int somatoria) {
+        this.somatoria = somatoria;
     }
 
     ArrayList<Aresta> aresta = new ArrayList<>();
