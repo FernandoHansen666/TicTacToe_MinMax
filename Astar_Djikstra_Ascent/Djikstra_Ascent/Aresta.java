@@ -1,4 +1,4 @@
-package Astar_Djikstra_Ascent.Djikstra_Ascent;
+package Djikstra_Ascent;
 
 public class Aresta {
 
